@@ -1,22 +1,18 @@
 import React from "react";
+import { Outlet } from "react-router-dom";
+import Sidebar from "./layout/Sidebar";
 
 const Layout = () => {
   return (
-    <header className="flex items-center justify-between border-b border-gray-200 bg-white px-6 py-4 shadow-sm">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-800">Finance Dashboard</h1>
-        <p className="text-sm text-gray-500">
-          Track your money, spending , and insights
-        </p>
+    <div className="flex min-h-screen">
+      {/* Sidebar */}
+      <Sidebar/>
+
+      {/* Main Content */}
+      <div className="flex-1 bg-gray-100 p-6">
+        <Outlet />
       </div>
-      <div className="flex items-center gap-3">
-        <label className="text-sm font-medium text-gray-600">Role</label>
-        <select className="rounded-lg border border-gray-300 px-2 py-2 text-sm outline-none focus:border-blue-500">
-          <option>Viewer</option>
-          <option>Admin</option>
-        </select>
-      </div>
-    </header>
+    </div>
   );
 };
 

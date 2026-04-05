@@ -1,0 +1,78 @@
+import React from "react";
+import { Moon, Sun } from "lucide-react";
+import { useAppContext } from "../../context/AppContext";
+
+const Header = () => {
+  const { role, setRole, theme, setTheme } = useAppContext();
+
+  const isLight = theme === "light";
+
+  return (
+    <header
+      className={`border-b shadow-sm ${
+        isLight ? "border-gray-200 bg-white" : "border-slate-800 bg-slate-900"
+      }`}
+    >
+      <div className="px-4 py-4 sm:px-6">
+        <div className="flex items-start justify-between gap-4">
+          <div className="min-w-0 flex-1">
+            <h1
+              className={`text-xl font-semibold leading-tight lg:text-xl ${
+                isLight ? "text-gray-800" : "text-white"
+              }`}
+            >
+              Personal Finance Dashboard
+            </h1>
+
+            <p
+              className={`mt-1 text-sm ${
+                isLight ? "text-gray-500" : "text-slate-400"
+              }`}
+            >
+              Track your cash flow, spending, and financial insights
+            </p>
+          </div>
+
+          {/* Show controls only on medium and bigger screens */}
+          <div className="hidden md:flex items-center gap-3">
+            <button
+              onClick={() => setTheme(isLight ? "dark" : "light")}
+              className={`flex h-10 w-10 items-center justify-center rounded-lg transition ${
+                isLight
+                  ? "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  : "bg-slate-800 text-white hover:bg-slate-700"
+              }`}
+            >
+              {isLight ? <Moon size={18} /> : <Sun size={18} />}
+            </button>
+
+            <div className="flex items-center gap-2">
+              <label
+                className={`text-sm font-medium ${
+                  isLight ? "text-gray-600" : "text-slate-300"
+                }`}
+              >
+                Role
+              </label>
+
+              <select
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                className={`rounded-lg border px-3 py-2 text-sm outline-none ${
+                  isLight
+                    ? "border-gray-300 bg-white text-gray-800"
+                    : "border-slate-700 bg-slate-800 text-white"
+                }`}
+              >
+                <option value="viewer">Viewer</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+};
+
+export default Header;
