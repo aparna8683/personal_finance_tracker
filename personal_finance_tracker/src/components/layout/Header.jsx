@@ -1,8 +1,8 @@
 import React from "react";
-import { Moon, Sun } from "lucide-react";
+import { Menu, Moon, Sun } from "lucide-react";
 import { useAppContext } from "../../context/AppContext";
 
-const Header = () => {
+const Header = ({ onMenuClick }) => {
   const { role, setRole, theme, setTheme } = useAppContext();
 
   const isLight = theme === "light";
@@ -14,27 +14,43 @@ const Header = () => {
       }`}
     >
       <div className="px-4 py-4 sm:px-6">
-        <div className="flex items-start justify-between gap-4">
-          <div className="min-w-0 flex-1">
-            <h1
-              className={`text-xl font-semibold leading-tight lg:text-xl ${
-                isLight ? "text-gray-800" : "text-white"
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex min-w-0 flex-1 items-start gap-3">
+            {/* Mobile menu button */}
+            <button
+              onClick={onMenuClick}
+              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg md:hidden ${
+                isLight
+                  ? "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  : "bg-slate-800 text-white hover:bg-slate-700"
               }`}
+              aria-label="Open menu"
             >
-              Personal Finance Dashboard
-            </h1>
+              <Menu size={20} />
+            </button>
 
-            <p
-              className={`mt-1 text-sm ${
-                isLight ? "text-gray-500" : "text-slate-400"
-              }`}
-            >
-              Track your cash flow, spending, and financial insights
-            </p>
+            {/* Title */}
+            <div className="min-w-0 flex-1">
+              <h1
+                className={`text-2xl font-semibold leading-tight sm:text-3xl ${
+                  isLight ? "text-gray-800" : "text-white"
+                }`}
+              >
+                Personal Finance Dashboard
+              </h1>
+
+              <p
+                className={`mt-1 max-w-2xl text-sm sm:text-base ${
+                  isLight ? "text-gray-500" : "text-slate-400"
+                }`}
+              >
+                Track your cash flow, spending, and financial insights
+              </p>
+            </div>
           </div>
 
-          {/* Show controls only on medium and bigger screens */}
-          <div className="hidden md:flex items-center gap-3">
+          {/* Right side actions */}
+          <div className="flex shrink-0 items-center gap-3">
             <button
               onClick={() => setTheme(isLight ? "dark" : "light")}
               className={`flex h-10 w-10 items-center justify-center rounded-lg transition ${
@@ -42,11 +58,12 @@ const Header = () => {
                   ? "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   : "bg-slate-800 text-white hover:bg-slate-700"
               }`}
+              aria-label="Toggle theme"
             >
               {isLight ? <Moon size={18} /> : <Sun size={18} />}
             </button>
 
-            <div className="flex items-center gap-2">
+            <div className="hidden md:flex items-center gap-2">
               <label
                 className={`text-sm font-medium ${
                   isLight ? "text-gray-600" : "text-slate-300"

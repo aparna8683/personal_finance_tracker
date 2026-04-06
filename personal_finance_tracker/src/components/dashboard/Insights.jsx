@@ -25,25 +25,16 @@ const Insights = () => {
     ? "bg-white border border-gray-200 text-gray-900 shadow-sm"
     : "bg-slate-900 border border-slate-800 text-white shadow-sm";
 
-  const mutedText = isLight ? "text-gray-500" : "text-gray-400";
+  const mutedText = isLight ? "text-gray-500" : "text-slate-400";
+
   const subCardBg = isLight
     ? "bg-white border border-gray-200"
     : "bg-slate-900 border border-slate-800";
 
   return (
-    <section className="space-y-6">
-      <div>
-        <h2
-          className={`text-3xl font-bold ${isLight ? "text-gray-900" : "text-white"}`}
-        >
-          Insights
-        </h2>
-        <p className={`mt-1 text-sm ${mutedText}`}>
-          A quick overview of your spending habits and savings.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+    <section className="w-full min-w-0 space-y-5 sm:space-y-6">
+      {/* Top Stat Cards */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
         <InsightCard
           title="Top Spending Category"
           value={highestSpendingCategory || "N/A"}
@@ -67,7 +58,7 @@ const Insights = () => {
         <InsightCard
           title="Savings Status"
           value={savingsStatus || "Stable"}
-          subtitle={`Net savings: ₹${savings.toLocaleString("en-IN")}`}
+          subtitle={`Net savings: ₹${Number(savings || 0).toLocaleString("en-IN")}`}
           icon={<PiggyBank size={20} />}
           accent="text-green-500"
           cardBase={cardBase}
@@ -75,11 +66,14 @@ const Insights = () => {
         />
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        <div className={`rounded-3xl p-6 ${subCardBg} shadow-sm`}>
+      {/* Detailed Insight Cards */}
+      <div className="grid grid-cols-1 gap-4 xl:grid-cols-2 xl:gap-6">
+        <div
+          className={`min-w-0 rounded-2xl p-4 shadow-sm sm:rounded-3xl sm:p-6 ${subCardBg}`}
+        >
           <div className="mb-4 flex items-center gap-3">
             <div
-              className={`flex h-10 w-10 items-center justify-center rounded-2xl ${
+              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl ${
                 isLight
                   ? "bg-red-50 text-red-500"
                   : "bg-red-500/10 text-red-400"
@@ -87,14 +81,17 @@ const Insights = () => {
             >
               <TrendingDown size={20} />
             </div>
+
             <h3
-              className={`text-xl font-semibold ${isLight ? "text-gray-900" : "text-white"}`}
+              className={`text-lg font-semibold sm:text-xl ${
+                isLight ? "text-gray-900" : "text-white"
+              }`}
             >
               Spending Insight
             </h3>
           </div>
 
-          <p className={`text-sm leading-7 ${mutedText}`}>
+          <p className={`text-sm leading-6 sm:leading-7 ${mutedText}`}>
             You are spending most on{" "}
             <span className="font-semibold text-blue-500">
               {highestSpendingCategory || "N/A"}
@@ -104,10 +101,12 @@ const Insights = () => {
           </p>
         </div>
 
-        <div className={`rounded-3xl p-6 ${subCardBg} shadow-sm`}>
+        <div
+          className={`min-w-0 rounded-2xl p-4 shadow-sm sm:rounded-3xl sm:p-6 ${subCardBg}`}
+        >
           <div className="mb-4 flex items-center gap-3">
             <div
-              className={`flex h-10 w-10 items-center justify-center rounded-2xl ${
+              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl ${
                 isLight
                   ? "bg-amber-50 text-amber-500"
                   : "bg-amber-500/10 text-amber-400"
@@ -115,18 +114,20 @@ const Insights = () => {
             >
               <Lightbulb size={20} />
             </div>
+
             <h3
-              className={`text-xl font-semibold ${isLight ? "text-gray-900" : "text-white"}`}
+              className={`text-lg font-semibold sm:text-xl ${
+                isLight ? "text-gray-900" : "text-white"
+              }`}
             >
               Smart Suggestion
             </h3>
           </div>
 
-          <p className={`text-sm leading-7 ${mutedText}`}>
+          <p className={`text-sm leading-6 sm:leading-7 ${mutedText}`}>
             If you reduce your top spending category by just 10%, you could save
-            around
-            <span className="font-semibold"> ₹500–₹1000 </span>
-            every month.
+            around <span className="font-semibold">₹500–₹1000</span> every
+            month.
           </p>
         </div>
       </div>
@@ -145,16 +146,20 @@ const InsightCard = ({
 }) => {
   return (
     <div
-      className={`rounded-3xl p-5 transition-all duration-200 hover:-translate-y-1 ${cardBase}`}
+      className={`min-w-0 rounded-2xl p-4 transition-all duration-200 sm:rounded-3xl sm:p-5 ${cardBase}`}
     >
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-4 flex items-start justify-between gap-3">
         <p className={`text-sm font-medium ${mutedText}`}>{title}</p>
-        <div className={`rounded-xl p-2 ${accent} bg-current/10`}>
+
+        <div className={`shrink-0 rounded-xl p-2 ${accent} bg-current/10`}>
           <span className="text-current">{icon}</span>
         </div>
       </div>
 
-      <h3 className={`text-3xl font-bold ${accent}`}>{value}</h3>
+      <h3 className={`break-words text-xl font-bold sm:text-2xl ${accent}`}>
+        {value}
+      </h3>
+
       <p className={`mt-2 text-sm ${mutedText}`}>{subtitle}</p>
     </div>
   );

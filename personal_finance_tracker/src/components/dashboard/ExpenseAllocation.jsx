@@ -17,6 +17,7 @@ const ExpenseAllocation = ({ data = [], theme }) => {
   const isLight = theme === "light";
 
   const sortedData = [...data].sort((a, b) => b.value - a.value);
+
   const totalExpense = sortedData.reduce(
     (sum, item) => sum + (Number(item.value) || 0),
     0,
@@ -27,13 +28,13 @@ const ExpenseAllocation = ({ data = [], theme }) => {
 
   return (
     <div
-      className={`rounded-3xl border p-6 shadow-sm ${
+      className={`w-full min-w-0 rounded-2xl border p-4 shadow-sm sm:rounded-3xl sm:p-6 ${
         isLight ? "border-gray-200 bg-white" : "border-slate-800 bg-slate-900"
       }`}
     >
-      <div className="mb-5">
+      <div className="mb-4 sm:mb-5">
         <h3
-          className={`text-2xl font-semibold ${
+          className={`text-lg font-semibold sm:text-xl ${
             isLight ? "text-gray-800" : "text-white"
           }`}
         >
@@ -49,42 +50,48 @@ const ExpenseAllocation = ({ data = [], theme }) => {
       </div>
 
       {sortedData.length > 0 ? (
-        <div className="grid gap-6 lg:grid-cols-[1fr_1.1fr]">
-          <div className="h-[280px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={sortedData}
-                  dataKey="value"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={55}
-                  outerRadius={95}
-                  paddingAngle={3}
-                >
-                  {sortedData.map((entry, index) => (
-                    <Cell
-                      key={entry.name}
-                      fill={COLORS[index % COLORS.length]}
-                    />
-                  ))}
-                </Pie>
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_1.1fr] lg:gap-6">
+          {/* Chart */}
+          <div className="min-w-0">
+            <div className="h-[240px] sm:h-[280px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={sortedData}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={40}
+                    outerRadius={80}
+                    paddingAngle={3}
+                  >
+                    {sortedData.map((entry, index) => (
+                      <Cell
+                        key={entry.name}
+                        fill={COLORS[index % COLORS.length]}
+                      />
+                    ))}
+                  </Pie>
 
-                <Tooltip
-                  formatter={(value) => [formatCurrency(value), "Expense"]}
-                  contentStyle={{
-                    borderRadius: "12px",
-                    border: isLight ? "1px solid #E5E7EB" : "1px solid #334155",
-                    backgroundColor: isLight ? "#ffffff" : "#0f172a",
-                  }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
+                  <Tooltip
+                    formatter={(value) => [formatCurrency(value), "Expense"]}
+                    contentStyle={{
+                      borderRadius: "12px",
+                      border: isLight
+                        ? "1px solid #E5E7EB"
+                        : "1px solid #334155",
+                      backgroundColor: isLight ? "#ffffff" : "#0f172a",
+                    }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
           </div>
 
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-3">
+          {/* Details */}
+          <div className="min-w-0 space-y-4">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <div
                 className={`rounded-2xl border p-4 ${
                   isLight
@@ -99,7 +106,7 @@ const ExpenseAllocation = ({ data = [], theme }) => {
                 >
                   Total Expense
                 </p>
-                <p className="mt-2 text-lg font-semibold text-red-500">
+                <p className="mt-2 break-words text-lg font-semibold text-red-500">
                   {formatCurrency(totalExpense)}
                 </p>
               </div>
@@ -118,7 +125,7 @@ const ExpenseAllocation = ({ data = [], theme }) => {
                 >
                   Highest Category
                 </p>
-                <p className="mt-2 text-lg font-semibold text-blue-500">
+                <p className="mt-2 break-words text-lg font-semibold text-blue-500">
                   {topCategory}
                 </p>
               </div>
@@ -146,17 +153,17 @@ const ExpenseAllocation = ({ data = [], theme }) => {
                     : 0;
 
                   return (
-                    <div key={item.name}>
-                      <div className="mb-2 flex items-center justify-between">
-                        <div className="flex items-center gap-2">
+                    <div key={item.name} className="min-w-0">
+                      <div className="mb-2 flex items-start justify-between gap-3">
+                        <div className="flex min-w-0 items-center gap-2">
                           <span
-                            className="h-3 w-3 rounded-full"
+                            className="h-3 w-3 shrink-0 rounded-full"
                             style={{
                               backgroundColor: COLORS[index % COLORS.length],
                             }}
                           />
                           <span
-                            className={`text-sm font-medium ${
+                            className={`truncate text-sm font-medium ${
                               isLight ? "text-gray-800" : "text-white"
                             }`}
                           >
@@ -165,7 +172,7 @@ const ExpenseAllocation = ({ data = [], theme }) => {
                         </div>
 
                         <span
-                          className={`text-sm ${
+                          className={`shrink-0 text-xs sm:text-sm ${
                             isLight ? "text-gray-600" : "text-slate-300"
                           }`}
                         >

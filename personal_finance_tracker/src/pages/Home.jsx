@@ -27,9 +27,11 @@ const Home = () => {
   const pageBg = isLight
     ? "bg-gray-50 text-gray-900"
     : "bg-[#020817] text-white";
+
   const cardBg = isLight
     ? "bg-white border border-gray-200 shadow-sm"
     : "bg-slate-900 border border-slate-800 shadow-sm";
+
   const mutedText = isLight ? "text-gray-500" : "text-gray-400";
 
   const savings = (Number(totalIncome) || 0) - (Number(totalExpense) || 0);
@@ -40,16 +42,18 @@ const Home = () => {
   const recentTransactions = transactions.slice(0, 4);
 
   return (
-    <div className={`min-h-screen ${pageBg}`}>
-      <div className="mx-auto max-w-7xl space-y-8 p-6">
-        <div>
-          <h1 className="text-3xl font-bold">Financial Overview</h1>
-          <p className={`mt-1 text-sm ${mutedText}`}>
+    <div className={`w-full min-w-0 ${pageBg}`}>
+      <div className="mx-auto w-full max-w-7xl space-y-5 p-4 sm:space-y-6 sm:p-6">
+        {/* Header */}
+        <div className="min-w-0">
+          <h1 className="text-2xl font-bold sm:text-3xl">Financial Overview</h1>
+          <p className={`mt-1 text-sm sm:text-base ${mutedText}`}>
             Track your balance, income, and expenses in one place.
           </p>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        {/* Summary Cards */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
           <SummaryCard
             title="Net Balance"
             amount={totalBalance}
@@ -70,28 +74,32 @@ const Home = () => {
           />
         </div>
 
-        <div className="grid gap-6 xl:grid-cols-3">
-          <div className={`rounded-3xl p-6 xl:col-span-2 ${cardBg}`}>
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-xl font-semibold">Recent Activity</h3>
-                <p className={`mt-1 text-sm ${mutedText}`}>
-                  Latest transactions from your account.
-                </p>
-              </div>
+        {/* Main Section */}
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-6">
+          {/* Recent Activity */}
+          <div
+            className={`min-w-0 rounded-2xl p-4 sm:p-6 ${cardBg} lg:col-span-2`}
+          >
+            <div>
+              <h3 className="text-lg font-semibold sm:text-xl">
+                Recent Activity
+              </h3>
+              <p className={`mt-1 text-sm ${mutedText}`}>
+                Latest transactions from your account.
+              </p>
             </div>
 
-            <div className="mt-6 space-y-4">
+            <div className="mt-4 space-y-3 sm:mt-6 sm:space-y-4">
               {recentTransactions.length > 0 ? (
                 recentTransactions.map((item, index) => (
                   <div
                     key={item.id || index}
-                    className={`flex items-center justify-between rounded-2xl px-4 py-3 ${
+                    className={`flex items-center justify-between gap-3 rounded-xl px-3 py-3 sm:rounded-2xl sm:px-4 ${
                       isLight ? "bg-gray-50" : "bg-slate-800/70"
                     }`}
                   >
-                    <div>
-                      <p className="font-medium">
+                    <div className="min-w-0">
+                      <p className="truncate font-medium">
                         {item.category || item.title || "Transaction"}
                       </p>
                       <p className={`text-xs ${mutedText}`}>
@@ -100,7 +108,7 @@ const Home = () => {
                     </div>
 
                     <p
-                      className={`font-semibold ${
+                      className={`shrink-0 text-sm font-semibold sm:text-base ${
                         item.type === "income"
                           ? "text-green-500"
                           : "text-red-500"
@@ -121,10 +129,13 @@ const Home = () => {
             </div>
           </div>
 
-          <div className={`rounded-3xl p-6 ${cardBg}`}>
+          {/* Insights */}
+          <div className={`min-w-0 rounded-2xl p-4 sm:p-6 ${cardBg}`}>
             <div className="flex items-start justify-between">
               <div>
-                <h3 className="text-xl font-semibold">Quick Insights</h3>
+                <h3 className="text-lg font-semibold sm:text-xl">
+                  Quick Insights
+                </h3>
                 <p className={`mt-1 text-sm ${mutedText}`}>
                   A short summary of your spending.
                 </p>
@@ -132,33 +143,23 @@ const Home = () => {
               <TrendingUp className="h-5 w-5 text-blue-500" />
             </div>
 
-            <div className="mt-6 space-y-5">
+            <div className="mt-5 space-y-4 sm:mt-6 sm:space-y-5">
+              {/* Top Category */}
               <div className="flex items-center gap-3">
-                <div
-                  className={`rounded-2xl p-2 ${
-                    isLight
-                      ? "bg-blue-50 text-blue-600"
-                      : "bg-blue-500/10 text-blue-400"
-                  }`}
-                >
+                <div className="rounded-xl p-2 bg-blue-100 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400">
                   <Wallet className="h-4 w-4" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <p className={`text-xs ${mutedText}`}>Top Category</p>
-                  <p className="font-semibold">
+                  <p className="truncate font-semibold">
                     {highestSpendingCategory || "N/A"}
                   </p>
                 </div>
               </div>
 
+              {/* Transactions */}
               <div className="flex items-center gap-3">
-                <div
-                  className={`rounded-2xl p-2 ${
-                    isLight
-                      ? "bg-purple-50 text-purple-600"
-                      : "bg-purple-500/10 text-purple-400"
-                  }`}
-                >
+                <div className="rounded-xl p-2 bg-purple-100 text-purple-600 dark:bg-purple-500/10 dark:text-purple-400">
                   <Receipt className="h-4 w-4" />
                 </div>
                 <div>
@@ -167,14 +168,9 @@ const Home = () => {
                 </div>
               </div>
 
+              {/* Savings */}
               <div className="flex items-center gap-3">
-                <div
-                  className={`rounded-2xl p-2 ${
-                    isLight
-                      ? "bg-green-50 text-green-600"
-                      : "bg-green-500/10 text-green-400"
-                  }`}
-                >
+                <div className="rounded-xl p-2 bg-green-100 text-green-600 dark:bg-green-500/10 dark:text-green-400">
                   <PiggyBank className="h-4 w-4" />
                 </div>
                 <div>
@@ -183,16 +179,18 @@ const Home = () => {
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-dashed border-blue-400/30 p-4">
+              {/* Savings Box */}
+              <div className="rounded-xl border border-dashed border-blue-400/30 p-4">
                 <p className={`text-sm ${mutedText}`}>Current savings:</p>
-                <p className="mt-1 text-2xl font-bold text-blue-500">
+                <p className="mt-1 text-xl font-bold text-blue-500 sm:text-2xl">
                   {formatCurrency(savings)}
                 </p>
               </div>
 
+              {/* CTA */}
               <Link
                 to="/insights"
-                className="mt-2 inline-flex items-center gap-2 rounded-2xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700 sm:w-auto"
               >
                 View Full Insights
                 <ArrowRight className="h-4 w-4" />

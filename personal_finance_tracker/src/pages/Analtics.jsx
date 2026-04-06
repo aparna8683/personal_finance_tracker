@@ -12,7 +12,7 @@ const Analytics = () => {
   const formatCurrency = (value) =>
     `₹${Number(value || 0).toLocaleString("en-IN")}`;
 
-  // group transactions by date
+  // Group transactions by date
   const groupedByDate = transactions.reduce((acc, tx) => {
     const date = tx.date;
     if (!acc[date]) {
@@ -32,7 +32,7 @@ const Analytics = () => {
     (a, b) => new Date(a.date) - new Date(b.date),
   );
 
-  // expense allocation data
+  // Expense allocation data
   const expenseMap = {};
   transactions.forEach((tx) => {
     if (tx.type === "expense") {
@@ -56,8 +56,9 @@ const Analytics = () => {
     .reduce((sum, tx) => sum + (Number(tx.amount) || 0), 0);
 
   const netFlow = totalIncome - totalExpense;
-  const topCategory =
-    expenseData.sort((a, b) => b.value - a.value)[0]?.name || "N/A";
+
+  const sortedExpenseData = [...expenseData].sort((a, b) => b.value - a.value);
+  const topCategory = sortedExpenseData[0]?.name || "N/A";
 
   const cardBg = isLight
     ? "bg-white border border-gray-200 shadow-sm"
@@ -66,20 +67,22 @@ const Analytics = () => {
   const mutedText = isLight ? "text-gray-500" : "text-slate-400";
 
   return (
-    <div className="space-y-6">
-      <div>
+    <div className="w-full min-w-0 space-y-5 sm:space-y-6">
+      <div className="min-w-0">
         <h2
-          className={`text-3xl font-bold ${isLight ? "text-gray-900" : "text-white"}`}
+          className={`text-2xl font-bold tracking-tight sm:text-3xl ${
+            isLight ? "text-gray-900" : "text-white"
+          }`}
         >
           Analytics
         </h2>
-        <p className={`mt-1 text-sm ${mutedText}`}>
+        <p className={`mt-1 text-sm sm:text-base ${mutedText}`}>
           Understand your cash flow, expenses, and category-wise spending.
         </p>
       </div>
 
       {/* Top summary cards */}
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <AnalyticsStatCard
           title="Total Income"
           value={formatCurrency(totalIncome)}
@@ -115,9 +118,14 @@ const Analytics = () => {
       </div>
 
       {/* Charts row */}
-      <div className="grid gap-6 xl:grid-cols-2">
-        <Charts data={chartData} theme={theme} />
-        <ExpenseAllocation data={expenseData} theme={theme} />
+      <div className="grid grid-cols-1 gap-4 xl:grid-cols-2 xl:gap-6">
+        <div className="min-w-0">
+          <Charts data={chartData} theme={theme} />
+        </div>
+
+        <div className="min-w-0">
+          <ExpenseAllocation data={expenseData} theme={theme} />
+        </div>
       </div>
     </div>
   );
@@ -125,12 +133,15 @@ const Analytics = () => {
 
 const AnalyticsStatCard = ({ title, value, icon, color, bg, mutedText }) => {
   return (
-    <div className={`rounded-3xl p-5 ${bg}`}>
-      <div className="mb-3 flex items-center justify-between">
+    <div className={`min-w-0 rounded-2xl p-4 sm:rounded-3xl sm:p-5 ${bg}`}>
+      <div className="mb-3 flex items-start justify-between gap-3">
         <p className={`text-sm ${mutedText}`}>{title}</p>
-        <div className={`${color}`}>{icon}</div>
+        <div className={`shrink-0 ${color}`}>{icon}</div>
       </div>
-      <h3 className={`text-2xl font-bold ${color}`}>{value}</h3>
+
+      <h3 className={`break-words text-xl font-bold sm:text-2xl ${color}`}>
+        {value}
+      </h3>
     </div>
   );
 };

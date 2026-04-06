@@ -7,7 +7,6 @@ export const AppProvider = ({ children }) => {
   const [theme, setTheme] = useState("light");
   const [role, setRole] = useState("viewer");
   const [showForm, setShowForm] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const [transactions, setTransactions] = useState(() => {
     const saved = localStorage.getItem("transactions");
@@ -84,8 +83,6 @@ export const AppProvider = ({ children }) => {
         setRole,
         showForm,
         setShowForm,
-        isSidebarOpen,
-        setIsSidebarOpen,
         transactions,
         setTransactions,
         searchTerm,
