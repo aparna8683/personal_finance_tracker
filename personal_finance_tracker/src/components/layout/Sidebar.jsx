@@ -51,13 +51,13 @@ const Sidebar = ({ mobile = false, onClose }) => {
             >
               FinTrack
             </h2>
-            <p
+            {/* <p
               className={`text-xs ${
                 isLight ? "text-gray-500" : "text-slate-400"
               }`}
             >
               Smart finance dashboard
-            </p>
+            </p> */}
           </div>
         </div>
 
@@ -83,8 +83,7 @@ const Sidebar = ({ mobile = false, onClose }) => {
           </div>
         )}
       </div>
-
-      {/* Nav */}
+       {/* Nav */}
       <nav className="flex-1 space-y-2 p-4">
         {navItems.map(({ to, label, icon: Icon, end }) => (
           <NavLink
